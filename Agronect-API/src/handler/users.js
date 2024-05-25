@@ -2,6 +2,8 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
+    sendPasswordResetEmail,
+    
 } from "firebase/auth";
 import {
     collection,
