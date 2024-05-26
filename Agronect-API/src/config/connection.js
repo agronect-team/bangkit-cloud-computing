@@ -1,14 +1,14 @@
 import mysql from "mysql2";
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
 
 dotenv.config();
 
 const dbPool = mysql.createPool({
-    host: "127.0.0.1",
-    port: 1234,
-    user: "bagus",
-    password: "baguskeren77",
-    database: "agronect_database",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    socketPath: process.env.DB_SOCKET_PATH,
+    ...config,
 });
 
 dbPool.getConnection((err, connection) => {
