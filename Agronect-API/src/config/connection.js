@@ -8,7 +8,8 @@ const dbPool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     socketPath: process.env.DB_SOCKET_PATH,
-    ...config,
+    host: "0.0.0.0",
+    port: 3306,
 });
 
 dbPool.getConnection((err, connection) => {
