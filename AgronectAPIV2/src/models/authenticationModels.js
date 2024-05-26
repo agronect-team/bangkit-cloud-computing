@@ -1,7 +1,7 @@
 import dbPool from "../config/connection.js";
 
 const checkedEmailRegister = async (email) => {
-    const SQLQuery = `SELECT * FROM users WHERE email = ?`;
+    const SQLQuery = `SELECT * FROM user WHERE email = ?`;
     const [rows] = await dbPool.execute(SQLQuery, [email]);
     if (rows.length > 0) {
         return rows[0];
@@ -11,7 +11,7 @@ const checkedEmailRegister = async (email) => {
 };
 
 const signupAuthModel = (body, user_id, dates, hashedPassword) => {
-    const SQLQuery = `INSERT INTO users (name, email, password, user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`;
+    const SQLQuery = `INSERT INTO user (name, email, password, user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`;
     const values = [
         body.name,
         body.email,
@@ -24,7 +24,7 @@ const signupAuthModel = (body, user_id, dates, hashedPassword) => {
 };
 
 const signinAuthModel = (body) => {
-    const SQLQuery = `SELECT * FROM users WHERE email = ?`;
+    const SQLQuery = `SELECT * FROM user WHERE email = ?`;
     const values = [body.email];
     return dbPool.execute(SQLQuery, values);
 };

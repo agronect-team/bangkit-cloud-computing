@@ -75,12 +75,13 @@ const signIn = async (req, res) => {
                 data: null,
             });
         } else {
-            const userlog = { id: user[0].user_id, email: user[0].email };
-            const accessToken = jwt.sign(userlog, process.env.JWT_SECRET, {
-                expiresIn: "1d",
+            const loguser = { id: user[0].user_id, email: user[0].email };
+            const accessToken = jwt.sign(loguser, process.env.JWT_SECRET, {
+                expiresIn: "1h",
             });
+
             const refreshToken = jwt.sign(
-                userlog,
+                loguser,
                 process.env.REFRESH_TOKEN_SECRET
             );
             const responseData = {
@@ -89,7 +90,6 @@ const signIn = async (req, res) => {
                 name: user[0].name,
                 email: user[0].email,
                 access_token: accessToken,
-                refresh_token: refreshToken,
                 message: "Login success",
             };
             res.json(responseData);
@@ -125,30 +125,33 @@ const refresh = async (req, res) => {
             console.log(user);
 
             const accessToken = jwt.sign(decoded, process.env.JWT_SECRET, {
-                expiresIn: "60d",
+                expiresIn: "1000d",
             });
             res.json({
                 status: "success",
-                access_token: accessToken,
+                data: { accessToken },
             });
         }
     );
 };
 
+//authenticationController.js
 const signOut = async (req, res) => {
     try {
-        if (req.header.authorization) {
-            const token = req.headers.authorization.split(" ")[1];
-            const [data] = await signoutAuthModel(token);
+        const authHeader =
+            req.headers["authorization"] || req.headers["Authorization"];
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+            const token = authHeader.split(" ")[1];
+            await signoutAuthModel(token); // No need to destructure the result
             res.status(200).json({
                 status: "success",
                 message: "Signout success",
                 data: null,
             });
         } else {
-            return res.status(400).json({
+            return res.status(422).json({
                 status: "failed",
-                message: "Please authenticate first",
+                message: "Token is expired or not found",
                 data: null,
             });
         }

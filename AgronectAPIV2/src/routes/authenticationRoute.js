@@ -17,9 +17,9 @@ dotenv.config();
 
 const router = express.Router();
 
-router.post("/signup", validate(signupValidate), signUp);
 router.post("/signin", validate(signinValidate), signIn);
+router.post("/signup", validate(signupValidate), signUp);
 router.post("/signout", auth, signOut);
-router.post("/refresh", auth, refresh);
+router.post("/refreshtoken", auth, refresh);
 
 export default router;
