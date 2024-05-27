@@ -21,7 +21,7 @@
 This document provides information on how to use the API endpoints and their functionalities.
 `
 
-# URL Services 
+# URL Services
 
 Link URL : https://agronect-web-services-todvjugg4q-uc.a.run.app
 
@@ -35,15 +35,15 @@ Link URL : https://agronect-web-services-todvjugg4q-uc.a.run.app
 
 ## Endpoints
 
-### POST /signup
+### SIGN UP
 
 Create a new user account.
 
 #### Request
 
--   Method: POST
--   Path: /signup
--   Body Parameters:
+-   Method : POST
+-   Path : /signup
+-   Body Parameters :
 
 ```json
 {
@@ -68,15 +68,15 @@ Create a new user account.
 }
 ```
 
-### POST /signin
+### SIGN IN
 
 Authenticate and sign in a user.
 
 #### Request
 
--   Method: POST
--   Path: /signin
--   Body Parameters:
+-   Method : POST
+-   Path : /signin
+-   Body Parameters :
 
 ```json
 {
@@ -100,15 +100,16 @@ Authenticate and sign in a user.
 }
 ```
 
-### POST /signout
+### SIGN OUT
 
 Method to sign out a user.
 
 #### Request
 
--   Method: POST
--   Path: /signout
--   Body Parameters:
+-   Method : POST
+-   Path : /signout
+-   Authentication : Token
+-   Body Parameters :
 
 ```json
 {}
@@ -123,5 +124,116 @@ Method to sign out a user.
     "status": "success",
     "message": "Signout success",
     "data": null
+}
+```
+
+### GET ALL USERS
+
+Get all users .
+
+#### Request
+
+-   Method : GET
+-   Path : /users
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "Users found",
+    "data": [
+        {
+            "user_id": "4PPGmix5Tim3",
+            "name": "irvan",
+            "email": "irvan@gmail.com"
+        },
+        {
+            "user_id": "FvO6JEA5LHmQ",
+            "name": "msdfkljsh",
+            "email": "honda@gmail.com"
+        },
+        {
+            "user_id": "nqKeaO1vLxHM",
+            "name": "Test2",
+            "email": "test1@gmail.com"
+        }
+    ]
+}
+```
+
+### GET USERS BY ID
+
+Get user by unique ID.
+
+#### Request
+
+-   Method : GET
+-   Path : /users/:id
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "User found",
+    "data": {
+        "user_id": "nqKeaO1vLxHM",
+        "name": "Test2",
+        "email": "test1@gmail.com",
+        "role": "user",
+        "created_at": "2024-05-27T03:37:00.000Z",
+        "updated_at": "2024-05-27T03:37:00.000Z"
+    }
+}
+```
+
+### UPDATE USER NAME AND EMAIL
+
+Method to update data email and username .
+
+#### Request
+
+-   Method : PUT
+-   Path : /users/:id
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{
+    "name": "Test2",
+    "email": "test1@gmail.com"
+}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "User updated successfully",
+    "data": {
+        "user_id": "nqKeaO1vLxHM",
+        "name": "Test2",
+        "email": "test1@gmail.com"
+    }
 }
 ```
