@@ -99,9 +99,9 @@ Authenticate and sign in a user.
 }
 ```
 
-### POST /signin
+### POST /signout
 
-Authenticate and sign in a user.
+Method to sign out a user.
 
 #### Request
 
