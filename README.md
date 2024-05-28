@@ -27,11 +27,14 @@ Link URL : https://agronect-web-services-todvjugg4q-uc.a.run.app
 
 ## Recap Endpoint Routes
 
-| Route    | HTTP Method | Description        |
-| -------- | ----------- | ------------------ |
-| /signup  | POST        | Sign up a new user |
-| /signin  | POST        | Sign in a user     |
-| /signout | POST        | Sign out a user    |
+| Route       | HTTP Method | Description                |
+| ----------- | ----------- | -------------------------- |
+| /signup     | POST        | Sign up a new user         |
+| /signin     | POST        | Sign in a user             |
+| /signout    | POST        | Sign out a user            |
+| /users      | GET         | Get all users              |
+| /users/:uid | GET         | Get user by UID            |
+| /users/:uid | PUT         | Update name and email user |
 
 ## Endpoints
 
@@ -177,7 +180,7 @@ Get user by unique ID.
 #### Request
 
 -   Method : GET
--   Path : /users/:id
+-   Path : /users/:uid
 -   Authentication : Token
 -   Body Parameters:
 
@@ -211,7 +214,7 @@ Method to update data email and username .
 #### Request
 
 -   Method : PUT
--   Path : /users/:id
+-   Path : /users/:uid
 -   Authentication : Token
 -   Body Parameters:
 
