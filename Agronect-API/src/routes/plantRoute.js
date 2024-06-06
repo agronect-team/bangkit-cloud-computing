@@ -17,13 +17,13 @@ const router = express.Router();
 // ENDPOINT API
 
 // GET DATA
-router.get("/plants", auth, getPlant);
+router.get("/plants", getPlant);
 
 // GET DATA BY ID
 router.get("/plants/:plant_id", auth, getByIdPlant);
 
 // POST DATA
-router.post("/plants", auth, validate(plantValidate), postPlant);
+router.post("/plants", validate(plantValidate), postPlant);
 
 // UPDATE DATA
 router.put("/plants/:plant_id", auth, validate(plantValidate), updatePlant);

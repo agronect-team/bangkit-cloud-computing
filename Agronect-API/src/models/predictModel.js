@@ -1,18 +1,18 @@
 import dbPool from "../config/connection.js";
 
-const getPlantId = (plant) => {
+const getPlantId = async (plant) => {
     const SQLQuery = "SELECT plant_id FROM plant WHERE name = ?";
-    const values = [plant];
-    return dbPool.execute(SQLQuery, values);
+    const [rows] = await dbPool.execute(SQLQuery, [plant]);
+    return rows;
 };
 
-const getDiseaseId = (disease) => {
+const getDiseaseId = async (disease) => {
     const SQLQuery = "SELECT disease_id FROM disease WHERE name = ?";
-    const values = [disease];
-    return dbPool.execute(SQLQuery, values);
+    const [rows] = await dbPool.execute(SQLQuery, [disease]);
+    return rows;
 };
 
-const postPredictModel = (
+const postPredictModel = async (
     prediction_id,
     dates,
     predict,
@@ -26,14 +26,14 @@ const postPredictModel = (
     const values = [
         prediction_id,
         user_id,
-        plant_id[0].plant_id,
-        disease_id[0].disease_id,
+        plant_id.plant_id,
+        disease_id.disease_id,
         imageUrl,
         predict.confidence,
         dates,
     ];
-
-    return dbPool.execute(SQLQuery, values);
+    const [result] = await dbPool.execute(SQLQuery, values);
+    return result;
 };
 
 export { getPlantId, getDiseaseId, postPredictModel };

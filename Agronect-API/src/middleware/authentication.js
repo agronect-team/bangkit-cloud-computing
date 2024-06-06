@@ -32,6 +32,7 @@ const auth = async (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.email = decoded.email;
+        req.name = decoded.name;
         next();
     } catch (err) {
         console.error("Kesalahan verifikasi token:", err);

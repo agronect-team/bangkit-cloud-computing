@@ -1,13 +1,12 @@
-from flask import Flask,jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 from routes.potato_route import potato_route
-
 
 app = Flask(__name__)
 
 cors_config = {
     "origins": ["http://localhost:3000"],
-    "methods": ["POST"],    
+    "methods": ["POST"],
 }
 
 @app.route('/')

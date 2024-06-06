@@ -75,7 +75,7 @@ const signIn = async (req, res) => {
                 data: null,
             });
         } else {
-            const loguser = { id: user[0].user_id, email: user[0].email };
+            const loguser = { id: user[0].user_id, email: user[0].email, name: user[0].name };
             const accessToken = jwt.sign(loguser, process.env.JWT_SECRET, {
                 expiresIn: "1h",
             });

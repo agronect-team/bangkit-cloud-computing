@@ -7,6 +7,15 @@ CREATE TABLE `user` (
   `created_at` datetime,
   `updated_at` datetime
 );
+CREATE TABLE `discussion` (
+  `discussion_id` VARCHAR(16) PRIMARY KEY,
+  `user_id` VARCHAR(255),
+  'name' VARCHAR(255),
+  `content` TEXT,
+  `ImgUrl` VARCHAR(255),
+  FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
+  FOREIGN KEY (`name`) REFERENCES `user`(`name`)
+);
 
 CREATE TABLE `plant` (
   `plant_id` varchar(16) primary key,

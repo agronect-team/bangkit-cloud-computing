@@ -12,13 +12,13 @@ import {
 
 const router = express.Router();
 
-router.get("/disease", auth, getDisease);
+router.get("/disease", getDisease);
 
 // GET DATA BY ID
 router.get("/disease/:disease_id", auth, getByIdDisease);
 
 // POST DATA
-router.post("/disease", auth, validate(diseaseValidate), postDisease);
+router.post("/disease", validate(diseaseValidate), postDisease);
 
 // UPDATE DATA
 router.put(

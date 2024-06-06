@@ -2,10 +2,10 @@ import multer from "multer";
 
 const upload = multer({
     limits: {
-        fileSize: 4 * 1024 * 1024, // Maximum file size: 2MB
+        fileSize: 4 * 1024 * 1024, // Maximum file size: 4MB
     },
     fileFilter: (req, file, cb) => {
-        const allowedMimeTypes = ["image/jpeg", "image/png"];
+        const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
 
         if (allowedMimeTypes.includes(file.mimetype)) {
             cb(null, true); // Accept the file

@@ -1,4 +1,4 @@
-import logging 
+import logging
 from flask import jsonify
 from keras._tf_keras.keras.models import load_model
 from keras._tf_keras.keras.preprocessing import image
@@ -6,6 +6,7 @@ import io
 import numpy as np
 import os
 
+# Load the model
 model_path = os.path.join(os.path.dirname(__file__), '../model/potato_model.h5')
 model = load_model(model_path)
 
@@ -31,7 +32,7 @@ def predict_potato(request):
         classes = model.predict(x, batch_size=1)
         predicted_class_indices = np.argmax(classes, axis=1)
 
-        class_labels = ['Early Blight', 'Late Blight', 'Healthy','Non Potato']
+        class_labels = ['Early Blight', 'Late Blight', 'Healthy', 'Non Potato']
         predicted_label = class_labels[predicted_class_indices[0]]
 
         response = {
@@ -43,4 +44,3 @@ def predict_potato(request):
     except Exception as e:
         logging.error(f"Error processing the image: {e}")
         return jsonify({'message': 'Something went wrong'}), 500
-    

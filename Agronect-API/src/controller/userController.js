@@ -63,14 +63,14 @@ const updateUser = async (req, res) => {
             return res.status(404).json({
                 status: "failed",
                 message: "User not found or no update performed",
-                data: null,
+                dataUpdate: null,
             });
         }
 
         res.status(200).json({
             status: "success",
             message: "User updated successfully",
-            data: {
+            dataUpdate: {
                 user_id: userId,
                 name,
                 email,
@@ -80,7 +80,7 @@ const updateUser = async (req, res) => {
         res.status(500).json({
             status: "failed",
             message: error.message,
-            data: null,
+            dataUpdate: null,
         });
     }
 };

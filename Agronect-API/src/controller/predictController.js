@@ -8,7 +8,9 @@ import {
 } from "../models/predictModel.js";
 import { nanoid } from "nanoid";
 
-const storage = new Storage();
+const storage = new Storage({
+    projectId: "agronect-api",
+});
 
 const predictionPlant = async (req, res, plant) => {
     try {
@@ -37,7 +39,7 @@ const predictionPlant = async (req, res, plant) => {
         };
 
         const response = await axios.post(
-            `https://localhost:3000/predict/${plant}`,
+            `http://localhost:3000/predict/potato`, // Ensure the URL uses http
             formData,
             config
         );
@@ -45,14 +47,13 @@ const predictionPlant = async (req, res, plant) => {
         const predict = response.data;
 
         const [plant_id] = await getPlantId(plant);
-
-        const [disease_id] = await getDiseaseId(predict);
+        const [disease_id] = await getDiseaseId(predict.prediction);
 
         if (response.status === 200 && predict.prediction !== "Non Potato") {
             const extension = mimetype.split("/")[1];
             const imageName = `${nanoid()}.${extension}`;
             const bucketName = "agronect-prediction";
-            const bucket = storage.bucket.file(bucketName);
+            const bucket = storage.bucket(bucketName);
             const file = bucket.file(imageName);
             await file.save(buffer, {
                 metadata: {
@@ -99,7 +100,7 @@ const predictionPlant = async (req, res, plant) => {
         res.status(500).json({
             code: 500,
             status: "INTERNAL SERVER ERROR",
-            message: error,
+            message: error.message,
             data: req.body,
         });
     }
