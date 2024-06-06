@@ -51,21 +51,21 @@ const getAllSharing = async (req, res) => {
             return res.status(404).json({
                 status: "failed",
                 message: "No sharing content found",
-                data: null,
+                dataGetAll: null,
             });
         }
 
         res.status(200).json({
             status: "success",
             message: "Sharing content found",
-            data: rows,
+            dataGetAll: rows,
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
             status: "failed",
             message: "Internal server error",
-            data: null,
+            dataGetAll: null,
         });
     }
 };
@@ -78,7 +78,7 @@ const getSharingById = async (req, res) => {
             return res.status(404).json({
                 status: "failed",
                 message: "Sharing not found",
-                data: null,
+                dataById: null,
             });
         }
 
@@ -87,13 +87,13 @@ const getSharingById = async (req, res) => {
         res.status(200).json({
             status: "success",
             message: "Sharing found",
-            data: sharing,
+            dataById: sharing,
         });
     } catch (error) {
         res.status(500).json({
             status: "failed",
             message: error.message,
-            data: null,
+            dataById: null,
         });
     }
 };

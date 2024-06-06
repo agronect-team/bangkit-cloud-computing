@@ -304,7 +304,7 @@ Method to get all user sharing .
 {
     "status": "success",
     "message": "Sharing content found",
-    "data": [
+    "dataGetAll": [
         [
             {
                 "sharing_id": "sharing-t0eU",
@@ -343,7 +343,7 @@ Method to get sharing by id .
 {
     "status": "success",
     "message": "Sharing found",
-    "data": {
+    "dataGetById": {
         "sharing_id": "sharing-fCdU",
         "user_id": "MU-GNKIDHI4T",
         "name": "test",
