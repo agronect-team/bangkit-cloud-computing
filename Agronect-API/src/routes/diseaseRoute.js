@@ -3,11 +3,11 @@ import { diseaseValidate } from "../validation/plantdiseaseValidate.js";
 import { validate } from "../middleware/validate.js";
 import auth from "../middleware/authentication.js";
 import {
-    addDisease,
-    getAllDiseases,
-    getDiseaseById,
+    getByIdDisease,
+    getDisease,
     updateDisease,
     deleteDisease,
+    postDisease,
 } from "../controller/diseaseController.js";
 
 const router = express.Router();

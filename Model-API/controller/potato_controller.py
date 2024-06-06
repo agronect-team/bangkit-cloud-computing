@@ -31,7 +31,7 @@ def predict_potato(request):
         classes = model.predict(x, batch_size=1)
         predicted_class_indices = np.argmax(classes, axis=1)
 
-        class_labels = ['Early Blight', 'Late Blight', 'Healthy']
+        class_labels = ['Early Blight', 'Late Blight', 'Healthy','Non Potato']
         predicted_label = class_labels[predicted_class_indices[0]]
 
         response = {
@@ -43,35 +43,4 @@ def predict_potato(request):
     except Exception as e:
         logging.error(f"Error processing the image: {e}")
         return jsonify({'message': 'Something went wrong'}), 500
-    if 'file' not in request.files :
-        logging.error('No file found')
-        return jsonify({'message': 'No file found'}), 400
     
-    file = request.files['file']
-
-    if file.filename == '' :
-        logging.error('No file selected')
-        return jsonify({'message': 'No file selected'}), 400
-    
-
-    try :
-        img = image.load_img(io.BytesIO(file.read()), target_size=(256, 256))
-        x = image.img_to_array(img)
-        x = np.expand_dims(x, axis=0)
-        x /= 255.0
-
-        classes = model.predict(x, batch_size=32)
-        predicted_class_indices = np.argmax(classes)
-
-        class_labels = ['Early Blight', 'Late Blight', 'Healthy']
-        predicted_label = class_labels[predicted_class_indices]
-
-        response = {
-            'prediction' : predicted_label,    
-            'confidence' : round(np.max(classes) * 100, 2)
-        }
-
-        return jsonify(response), 200
-    except Exception as e :
-        logging.error(e)
-        return jsonify({'message': 'Something went wrong'}), 500

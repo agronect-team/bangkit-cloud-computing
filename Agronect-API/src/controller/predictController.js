@@ -5,7 +5,7 @@ import {
     postPredictModel,
     getPlantId,
     getDiseaseId,
-} from "../models/predictModel";
+} from "../models/predictModel.js";
 import { nanoid } from "nanoid";
 
 const storage = new Storage();
