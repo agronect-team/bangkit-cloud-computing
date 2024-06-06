@@ -246,7 +246,7 @@ Method to update data email and username .
 }
 ```
 
-### ADD SHARING/DISCUSSION
+### POST SHARING/DISCUSSION
 
 Method to post sharing section user .
 
@@ -272,7 +272,7 @@ Method to post sharing section user .
 {
      "status": "success",
     "message": "Content shared successfully",
-    "data": {
+    "dataPost": {
         "sharing_id": "sharing-cGzG",
         "name": "test",
         "content": "Testing a response sharing",

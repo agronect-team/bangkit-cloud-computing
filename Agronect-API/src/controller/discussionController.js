@@ -27,7 +27,7 @@ const postSharing = async (req, res) => {
         res.status(201).json({
             status: "success",
             message: "Content shared successfully",
-            data: {
+            dataPost: {
                 sharing_id,
                 name,
                 content: body.content,
@@ -39,7 +39,7 @@ const postSharing = async (req, res) => {
         res.status(500).json({
             status: "failed",
             message: "Internal server error",
-            data: null,
+            dataPost: null,
         });
     }
 };
