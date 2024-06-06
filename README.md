@@ -23,18 +23,23 @@ This document provides information on how to use the API endpoints and their fun
 
 # URL Services
 
-Link URL : https://agronect-web-services-todvjugg4q-uc.a.run.app
+Link URL : https://agronect-testing-sprknqibeq-et.a.run.app/
 
 ## Recap Endpoint Routes
 
-| Route       | HTTP Method | Description                |
-| ----------- | ----------- | -------------------------- |
-| /signup     | POST        | Sign up a new user         |
-| /signin     | POST        | Sign in a user             |
-| /signout    | POST        | Sign out a user            |
-| /users      | GET         | Get all users              |
-| /users/:uid | GET         | Get user by UID            |
-| /users/:uid | PUT         | Update name and email user |
+| Route                | HTTP Method | Description                |
+| -------------------- | ----------- | -------------------------- |
+| /signup              | POST        | sign up a new user         |
+| /signin              | POST        | sign in a user             |
+| /signout             | POST        | sign out a user            |
+| /users               | GET         | get all users              |
+| /users/:user_id      | GET         | get user by UID            |
+| /users/:user_id      | PUT         | update name and email user |
+| /sharing             | POST        | add sharing each user      |
+| /sharing             | GET         | get all sharing            |
+| /sharing/:sharing_id | GET         | get sharing by id          |
+| /sharing/:sharing_id | PUT         | update sharing by id       |
+| /sharing/:sharing_id | DELETW      | delete sharing by id       |
 
 ## Endpoints
 
@@ -271,7 +276,7 @@ Method to post sharing section user .
         "sharing_id": "sharing-cGzG",
         "name": "test",
         "content": "Testing a response sharing",
-        "imgUrl": "https://imageexample.com""
+        "imgUrl": "https://imageexample.com"
     }
 }
 ```
