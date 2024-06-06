@@ -46,7 +46,15 @@ const postSharing = async (req, res) => {
 
 const getAllSharing = async (req, res) => {
     try {
-        const rows = await getAllSharingModel();
+        const [rows] = await getAllSharingModel();
+        if (rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "No sharing content found",
+                data: null,
+            });
+        }
+
         res.status(200).json({
             status: "success",
             message: "Sharing content found",
@@ -61,7 +69,6 @@ const getAllSharing = async (req, res) => {
         });
     }
 };
-
 const getSharingById = async (req, res) => {
     const sharing_id = req.params.id;
     try {

@@ -1,7 +1,7 @@
 import dbPool from "../config/connection.js";
 import { nanoid } from "nanoid";
 
-const postSharingModel = (sharing_id,body, userId, name, imgUrl) => {
+const postSharingModel = (sharing_id, body, userId, name, imgUrl) => {
     const SQLQuery = `
         INSERT INTO sharing (sharing_id, user_id, name, content, imgUrl)
         VALUES (?, ?, ?, ?, ?)
@@ -17,12 +17,7 @@ const postSharingModel = (sharing_id,body, userId, name, imgUrl) => {
 };
 
 const getAllSharingModel = () => {
-    const SQLQuery = `
-        SELECT s.sharing_id, s.content, s.imgUrl, s.created_at, s.updated_at, u.name, u.user_id
-        FROM sharing s
-        INNER JOIN user u ON s.user_id = u.user_id
-        ORDER BY s.created_at DESC
-    `;
+    const SQLQuery = "SELECT * FROM sharing";
     return dbPool.query(SQLQuery);
 };
 
@@ -54,4 +49,10 @@ const deleteSharingModel = async (sharing_id) => {
     return dbPool.execute(SQLQuery, [sharing_id]);
 };
 
-export { postSharingModel, getAllSharingModel,getSharingByIdModel,updateSharingModel,deleteSharingModel, };
+export {
+    postSharingModel,
+    getAllSharingModel,
+    getSharingByIdModel,
+    updateSharingModel,
+    deleteSharingModel,
+};
