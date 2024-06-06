@@ -27,19 +27,20 @@ Link URL : https://agronect-testing-sprknqibeq-et.a.run.app/
 
 ## Recap Endpoint Routes
 
-| Route                | HTTP Method | Description                |
-| -------------------- | ----------- | -------------------------- |
-| /signup              | POST        | sign up a new user         |
-| /signin              | POST        | sign in a user             |
-| /signout             | POST        | sign out a user            |
-| /users               | GET         | get all users              |
-| /users/:user_id      | GET         | get user by UID            |
-| /users/:user_id      | PUT         | update name and email user |
-| /sharing             | POST        | add sharing each user      |
-| /sharing             | GET         | get all sharing            |
-| /sharing/:sharing_id | GET         | get sharing by id          |
-| /sharing/:sharing_id | PUT         | update sharing by id       |
-| /sharing/:sharing_id | DELETW      | delete sharing by id       |
+| Route                           | HTTP Method | Description                |
+| ------------------------------- | ----------- | -------------------------- |
+| /signup                         | POST        | sign up a new user         |
+| /signin                         | POST        | sign in a user             |
+| /signout                        | POST        | sign out a user            |
+| /users                          | GET         | get all users              |
+| /users/:user_id                 | GET         | get user by UID            |
+| /users/:user_id                 | PUT         | update name and email user |
+| /users/change-password/:user_id | PUT         | change password user |
+| /sharing                        | POST        | add sharing each user      |
+| /sharing                        | GET         | get all sharing            |
+| /sharing/:sharing_id            | GET         | get sharing by id          |
+| /sharing/:sharing_id            | PUT         | update sharing by id       |
+| /sharing/:sharing_id            | DELETW      | delete sharing by id       |
 
 ## Endpoints
 
@@ -185,7 +186,7 @@ Get user by unique ID.
 #### Request
 
 -   Method : GET
--   Path : /users/:uid
+-   Path : /users/:user_id
 -   Authentication : Token
 -   Body Parameters:
 
@@ -219,7 +220,7 @@ Method to update data email and username .
 #### Request
 
 -   Method : PUT
--   Path : /users/:uid
+-   Path : /users/:user_id
 -   Authentication : Token
 -   Body Parameters:
 
@@ -243,6 +244,36 @@ Method to update data email and username .
         "name": "Test2",
         "email": "test1@gmail.com"
     }
+}
+```
+
+### CHANGE PASSWORD
+
+Method to change password user.
+
+#### Request
+
+-   Method : PUT
+-   Path : /users/change-password/:user_id
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{
+    "oldPassword": "Baguskeren77",
+    "newPassword": "BagusGanteng78",
+    "confirmPassword": "BagusGanteng78"
+}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "Password updated successfully"
 }
 ```
 
@@ -270,7 +301,7 @@ Method to post sharing section user .
 
 ```json
 {
-     "status": "success",
+    "status": "success",
     "message": "Content shared successfully",
     "dataPost": {
         "sharing_id": "sharing-cGzG",

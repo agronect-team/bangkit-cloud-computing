@@ -2,6 +2,7 @@ import {
     updateUserModel,
     getUserByIdModel,
     getAllUsersModel,
+    changePasswordModel,
 } from "../models/usersModel.js";
 import bcrypt from "bcrypt";
 
@@ -53,6 +54,55 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const changePassword = async (req, res) => {
+    const userId = req.params.id;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    try {
+        const rows = await getUserByIdModel(userId);
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "User not found",
+                data: null,
+            });
+        }
+
+        const user = rows[0];
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                status: "failed",
+                message: "Old password is incorrect",
+                data: null,
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({
+                status: "failed",
+                message: "New password and confirm password do not match",
+                data: null,
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const result = await changePasswordModel(userId, hashedPassword);
+
+        res.status(200).json({
+            status: "success",
+            message: "Password updated successfully",
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "failed",
+            message: error.message,
+        });
+    }
+};
+
 const updateUser = async (req, res) => {
     const userId = req.params.id;
     const { name, email } = req.body;
@@ -85,4 +135,4 @@ const updateUser = async (req, res) => {
     }
 };
 
-export { updateUser, getUserById, getAllUsers };
+export { updateUser, getUserById, getAllUsers, changePassword };

@@ -12,16 +12,21 @@ const getAllUsersModel = async () => {
     return rows;
 };
 
+const changePasswordModel = async (userId, hashedPassword) => {
+    const SQLQuery = "UPDATE user SET password = ? WHERE user_id = ?";
+    const [result] = await dbPool.execute(SQLQuery, [hashedPassword, userId]);
+    return result;
+};
+
 const updateUserModel = async (userId, name, email) => {
     const SQLQuery = "UPDATE user SET name = ?, email = ? WHERE user_id = ?";
     const [result] = await dbPool.execute(SQLQuery, [name, email, userId]);
     return result;
 };
 
-
-
 export {
     updateUserModel,
     getAllUsersModel,
     getUserByIdModel,
+    changePasswordModel,
 };
