@@ -7,15 +7,17 @@ CREATE TABLE `user` (
   `created_at` datetime,
   `updated_at` datetime
 );
-CREATE TABLE `discussion` (
-  `discussion_id` VARCHAR(16) PRIMARY KEY,
-  `user_id` VARCHAR(255),
-  'name' VARCHAR(255),
+CREATE TABLE `sharing` (
+  `sharing_id` VARCHAR(16) PRIMARY KEY,
+  `user_id` VARCHAR(16),
+  `name` VARCHAR(100),
   `content` TEXT,
-  `ImgUrl` VARCHAR(255),
+  `imgUrl` VARCHAR(255),
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
-  FOREIGN KEY (`name`) REFERENCES `user`(`name`)
 );
+
 
 CREATE TABLE `plant` (
   `plant_id` varchar(16) primary key,

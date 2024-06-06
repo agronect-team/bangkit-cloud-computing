@@ -1,8 +1,7 @@
 import dbPool from "../config/connection.js";
 import { nanoid } from "nanoid";
 
-const postSharingModel = (body, userId, name, imgUrl) => {
-    const sharing_id = "sharing-" + nanoid(4); // Generate a unique ID
+const postSharingModel = (sharing_id,body, userId, name, imgUrl) => {
     const SQLQuery = `
         INSERT INTO sharing (sharing_id, user_id, name, content, imgUrl)
         VALUES (?, ?, ?, ?, ?)

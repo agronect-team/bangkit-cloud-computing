@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import {
     postSharingModel,
     getAllSharingModel,
@@ -20,14 +21,15 @@ const postSharing = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
     const name = decoded.name;
+    const sharing_id = "sharing-" + nanoid(4);
     try {
-        await postSharingModel(body, userId, name, body.imgUrl);
+        await postSharingModel(sharing_id, body, userId, name, body.imgUrl);
         res.status(201).json({
             status: "success",
             message: "Content shared successfully",
             data: {
+                sharing_id,
                 name,
-                user_id: userId,
                 content: body.content,
                 imgUrl: body.imgUrl || null,
             },

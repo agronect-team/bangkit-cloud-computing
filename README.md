@@ -98,7 +98,7 @@ Authenticate and sign in a user.
     "user_id": "nqKeaO1vLxHM",
     "name": "Test",
     "email": "test1@gmail.com",
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5xS2VhTzF2THhITSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwiaWF0IjoxNzE2NzgxMDk1LCJleHAiOjE3MTY3ODQ2OTV9.IBF__BzpKKoLjCTCVOeEFrCLWSKMq_TMEFfb0ZqatM0",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5xS2VhTzF2THhITSIsImVtYWlsIjoidGVzdDFAZ21haWwuY29tIiwiaWF0IjoxNzE2NzgxMDk1LCJleHAiOjE3MTY3ODQ2OTV9.IBF__BzpKKoLjCTCVOeEFrCLWSKMq_TMEFfb0ZqatM0", //access token refresh each login
     "message": "Login success"
 }
 ```
@@ -166,7 +166,7 @@ Get all users .
         },
         {
             "user_id": "nqKeaO1vLxHM",
-            "name": "Test2",
+            "name": "Test",
             "email": "test1@gmail.com"
         }
     ]
@@ -198,8 +198,8 @@ Get user by unique ID.
     "message": "User found",
     "data": {
         "user_id": "nqKeaO1vLxHM",
-        "name": "Test2",
-        "email": "test1@gmail.com",
+        "name": "Test",
+        "email": "test@gmail.com",
         "role": "user",
         "created_at": "2024-05-27T03:37:00.000Z",
         "updated_at": "2024-05-27T03:37:00.000Z"
@@ -220,8 +220,8 @@ Method to update data email and username .
 
 ```json
 {
-    "name": "Test2",
-    "email": "test1@gmail.com"
+    "name": "Testing",
+    "email": "test@gmail.com"
 }
 ```
 
@@ -233,10 +233,151 @@ Method to update data email and username .
 {
     "status": "success",
     "message": "User updated successfully",
-    "data": {
+    "dataUpdate": {
         "user_id": "nqKeaO1vLxHM",
         "name": "Test2",
         "email": "test1@gmail.com"
+    }
+}
+```
+
+### ADD SHARING/DISCUSSION
+
+Method to post sharing section user .
+
+#### Request
+
+-   Method : POST
+-   Path : /sharing
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{
+    "content": "Testing a response sharing",
+    "imgUrl": "https://imageexample.com" //can be null
+}
+```
+
+#### Response
+
+-   Success(201 CREATED)
+
+```json
+{
+     "status": "success",
+    "message": "Content shared successfully",
+    "data": {
+        "sharing_id": "sharing-cGzG",
+        "name": "test",
+        "content": "Testing a response sharing",
+        "imgUrl": "https://imageexample.com""
+    }
+}
+```
+
+### GET ALL SHARING
+
+Method to get all user sharing .
+
+#### Request
+
+-   Method : GET
+-   Path : /sharing
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "Sharing content found",
+    "data": [
+        [
+            {
+                "sharing_id": "sharing-t0eU",
+                "content": "ASIKKKKK UHUYYYY BANGET NIH JADI",
+                "imgUrl": null,
+                "created_at": "2024-06-06T00:54:04.000Z",
+                "updated_at": "2024-06-06T00:54:04.000Z",
+                "name": "test",
+                "user_id": "MU-GNKIDHI4T"
+            }
+        ]
+    ]
+}
+```
+
+### GET SHARING BY SHARING ID
+
+Method to get sharing by id .
+
+#### Request
+
+-   Method : GET
+-   Path : /sharing/:sharing_id
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "Sharing found",
+    "data": {
+        "sharing_id": "sharing-fCdU",
+        "user_id": "MU-GNKIDHI4T",
+        "name": "test",
+        "content": "ASIKKKKK UHUYYYY BANGET NIH JADI KALI",
+        "ImgUrl": null
+    }
+}
+```
+
+### UPDATE SHARING
+
+Method to update data email and username .
+
+#### Request
+
+-   Method : PUT
+-   Path : /sharing/:sharing_id
+-   Authentication : Token
+-   Body Parameters:
+
+```json
+{
+    "content": "Testing response update",
+    "imgUrl": null
+}
+```
+
+#### Response
+
+-   Success(200 OK)
+
+```json
+{
+    "status": "success",
+    "message": "Sharing updated successfully",
+    "dataUpdate": {
+        "sharing_id": "sharing-t0eU",
+        "content": "Testing response update",
+        "imgUrl": null
     }
 }
 ```

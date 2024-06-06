@@ -4,16 +4,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const dbPool = mysql.createPool({
-    // user: process.env.DB_USER,
-    // password: process.env.DB_PASSWORD,
-    // database: process.env.DB_NAME,
-    // socketPath: process.env.DB_SOCKET_PATH,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    socketPath: process.env.DB_SOCKET_PATH,
 
-    host: "127.0.0.1",
-    port: 1234,
-    user: "bagus",
-    password: "baguskeren77",
-    database: "capstone-database",
+    // host: "localhost",
+    // port: 1234,
+    // user: "root",
+    // password: "baguskeren77",
+    // database: "database-testing",
 });
 
 dbPool.getConnection((err, connection) => {
