@@ -1,19 +1,34 @@
 import dbPool from "../config/connection.js";
 import { nanoid } from "nanoid";
 
-const postSharingModel = (sharing_id, body, userId, name, imgUrl) => {
-    const SQLQuery = `
-        INSERT INTO sharing (sharing_id, user_id, name, content, imgUrl)
+// const postSharingModel = (sharing_id, body, userId, name, imgUrl) => {
+//     const SQLQuery = `
+//         INSERT INTO sharing (sharing_id, user_id, name, content, imgUrl)
+//         VALUES (?, ?, ?, ?, ?)
+//     `;
+//     const values = [
+//         sharing_id,
+//         userId,
+//         name,
+//         body.content,
+//         body.imgUrl || null,
+//     ];
+//     return dbPool.execute(SQLQuery, values);
+// };
+
+const postSharingModel = async (sharing_id, content, userId, name, imgUrl) => {
+    const query = `
+        INSERT INTO sharing (sharing_id, content, user_id, name, imgUrl)
         VALUES (?, ?, ?, ?, ?)
     `;
-    const values = [
-        sharing_id,
-        userId,
-        name,
-        body.content,
-        body.imgUrl || null,
-    ];
-    return dbPool.execute(SQLQuery, values);
+    const values = [sharing_id, content, userId, name, imgUrl];
+
+    try {
+        const [rows] = await dbPool.execute(query, values);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
 };
 
 const getAllSharingModel = () => {

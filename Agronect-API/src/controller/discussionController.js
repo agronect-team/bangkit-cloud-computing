@@ -6,6 +6,7 @@ import {
     getSharingByIdModel,
     updateSharingModel,
 } from "../models/discussionModel.js";
+import { uploadImageToGCS } from "../middleware/upload.js";
 import jwt from "jsonwebtoken";
 
 const postSharing = async (req, res) => {
@@ -23,7 +24,13 @@ const postSharing = async (req, res) => {
     const name = decoded.name;
     const sharing_id = "sharing-" + nanoid(4);
     try {
-        await postSharingModel(sharing_id, body, userId, name, body.imgUrl);
+        let imgUrl = null;
+        if (req.file) {
+            imgUrl = await uploadImageToGCS(req.file);
+        }
+
+        await postSharingModel(sharing_id, body.content, userId, name, imgUrl);
+
         res.status(201).json({
             status: "success",
             message: "Content shared successfully",
@@ -31,7 +38,7 @@ const postSharing = async (req, res) => {
                 sharing_id,
                 name,
                 content: body.content,
-                imgUrl: body.imgUrl || null,
+                imgUrl: imgUrl || null,
             },
         });
     } catch (error) {

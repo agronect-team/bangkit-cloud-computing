@@ -65,7 +65,6 @@ const changePassword = async (req, res) => {
             return res.status(404).json({
                 status: "failed",
                 message: "User not found",
-                data: null,
             });
         }
 
@@ -76,7 +75,6 @@ const changePassword = async (req, res) => {
             return res.status(400).json({
                 status: "failed",
                 message: "Old password is incorrect",
-                data: null,
             });
         }
 
@@ -84,7 +82,6 @@ const changePassword = async (req, res) => {
             return res.status(400).json({
                 status: "failed",
                 message: "New password and confirm password do not match",
-                data: null,
             });
         }
 

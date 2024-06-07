@@ -9,11 +9,13 @@ import {
     updateSharing,
     deleteSharing,
 } from "../controller/discussionController.js";
+import { upload } from "../middleware/upload.js";
+
 const router = express.Router();
 
 router.get("/sharing", getAllSharing);
 router.get("/sharing/:id", auth, getSharingById, getAllSharing);
-router.post("/sharing", auth, validate(discussionValidate), postSharing);
+router.post("/sharing", auth, upload.single("imgUrl"), postSharing);
 router.put("/sharing/:id", auth, validate(discussionValidate), updateSharing);
 router.delete("/sharing/:id", auth, deleteSharing);
 
