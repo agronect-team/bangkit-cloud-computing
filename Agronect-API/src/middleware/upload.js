@@ -6,7 +6,16 @@ import { nanoid } from "nanoid";
 
 dotenv.config();
 
-const storage = new Storage();
+let storage;
+
+if (process.env.NODE_ENV === "production") {
+    storage = new Storage();
+} else {
+    storage = new Storage({
+        projectId: process.env.PROJECT_ID,
+        keyFilename: process.env.KEY_FILENAME,
+    });
+}
 
 const bucketName = process.env.BUCKET_NAME;
 const bucket = storage.bucket(bucketName);
