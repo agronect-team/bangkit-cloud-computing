@@ -4,6 +4,8 @@ import {
     userValidate,
 } from "../validation/authenticationValidate.js";
 import { validate } from "../middleware/validate.js";
+import { upload } from "../middleware/upload.js";
+
 import auth from "../middleware/authentication.js";
 
 import {
@@ -11,14 +13,25 @@ import {
     getUserById,
     getAllUsers,
     changePassword,
+    uploadProfilePhoto,
 } from "../controller/userController.js";
 
 const router = express.Router();
 
-router.get("/users/:id", auth, getUserById);
-router.get("/users/", auth, getAllUsers);
+router.get("/users/:id", getUserById);
+router.get("/users/", getAllUsers);
 
 router.put("/users/:id", auth, validate(userValidate), updateUser);
-router.put("/users/change-password/:id", auth, validate(passwordValidate), changePassword);
+router.post(
+    "/users/:id/upload-photoprofile",
+    upload.single("imgUrl"),
+    uploadProfilePhoto
+);
+router.put(
+    "/users/change-password/:id",
+    auth,
+    validate(passwordValidate),
+    changePassword
+);
 
 export default router;

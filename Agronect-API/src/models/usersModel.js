@@ -18,9 +18,14 @@ const changePasswordModel = async (userId, hashedPassword) => {
     return result;
 };
 
-const updateUserModel = async (userId, name, email) => {
-    const SQLQuery = "UPDATE user SET name = ?, email = ? WHERE user_id = ?";
-    const [result] = await dbPool.execute(SQLQuery, [name, email, userId]);
+const updateUserModel = async (userId, updates) => {
+    const fields = Object.keys(updates)
+        .map((key) => `${key} = ?`)
+        .join(", ");
+    const values = [...Object.values(updates), userId];
+    const SQLQuery = `UPDATE user SET ${fields} WHERE user_id = ?`;
+
+    const [result] = await dbPool.execute(SQLQuery, values);
     return result;
 };
 

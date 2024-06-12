@@ -6,6 +6,8 @@ import {
 } from "../models/usersModel.js";
 import bcrypt from "bcrypt";
 
+import { uploadProfilePhotoToGCS } from "../middleware/upload.js";
+
 const getUserById = async (req, res) => {
     const userId = req.params.id;
     try {
@@ -132,4 +134,46 @@ const updateUser = async (req, res) => {
     }
 };
 
-export { updateUser, getUserById, getAllUsers, changePassword };
+const uploadProfilePhoto = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        // Check if user exists
+        const rows = await getUserByIdModel(userId);
+        if (rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "User not found",
+                data: null,
+            });
+        }
+
+        // Upload the image to Google Cloud Storage
+        const file = req.file;
+        const publicUrl = await uploadProfilePhotoToGCS(file);
+
+        // Update user profile photo URL in the database
+        const updates = { photoProfileUrl: publicUrl };
+        await updateUserModel(userId, updates);
+
+        res.status(200).json({
+            status: "success",
+            message: "Profile photo uploaded successfully",
+            dataUploadProfile: { photoProfileUrl: publicUrl },
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "failed",
+            message: error.message,
+            data: null,
+        });
+    }
+};
+
+export {
+    updateUser,
+    getUserById,
+    getAllUsers,
+    changePassword,
+    uploadProfilePhoto,
+};

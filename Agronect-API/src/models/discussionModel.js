@@ -31,9 +31,23 @@ const postSharingModel = async (sharing_id, content, userId, name, imgUrl) => {
     }
 };
 
-const getAllSharingModel = () => {
-    const SQLQuery = "SELECT * FROM sharing";
-    return dbPool.query(SQLQuery);
+// const getAllSharingModel = () => {
+//     const SQLQuery = "SELECT * FROM sharing";
+//     return dbPool.query(SQLQuery);
+// };
+const getAllSharingModel = async (offset, limit) => {
+    try {
+        const [rows] = await dbPool.query(
+            `SELECT * FROM sharing ORDER BY created_at DESC LIMIT ?, ?`,
+            [offset, limit]
+        );
+        const [[{ totalItems }]] = await dbPool.query(
+            `SELECT COUNT(*) as totalItems FROM sharing`
+        );
+        return { rows, totalItems };
+    } catch (error) {
+        throw error;
+    }
 };
 
 const getSharingByIdModel = async (sharing_id) => {

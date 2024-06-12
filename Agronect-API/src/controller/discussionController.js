@@ -53,29 +53,36 @@ const postSharing = async (req, res) => {
 
 const getAllSharing = async (req, res) => {
     try {
-        const [rows] = await getAllSharingModel();
-        if (rows.length === 0) {
-            return res.status(404).json({
-                status: "failed",
-                message: "No sharing content found",
-                dataGetAll: null,
-            });
-        }
+        // Mengambil parameter page dan size dari query string
+        const page = parseInt(req.query.page);
+        const size = parseInt(req.query.size);
+        const offset = (page - 1) * size;
+
+        // Memanggil model dengan parameter offset dan size
+        const { rows, totalItems } = await getAllSharingModel(offset, size);
+        const totalPages = Math.ceil(totalItems / size);
 
         res.status(200).json({
             status: "success",
             message: "Sharing content found",
             dataGetAll: rows,
+            pagination: {
+                totalItems,
+                totalPages,
+                currentPage: page,
+                itemsPerPage: size,
+            },
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
             status: "failed",
             message: "Internal server error",
-            dataGetAll: null,
+            data: null,
         });
     }
 };
+
 const getSharingById = async (req, res) => {
     const sharing_id = req.params.id;
     try {
