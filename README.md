@@ -339,7 +339,7 @@ Get all sharing content.
 
 -   **Success (200 OK)**
 
-            ```json
+  ```json
                 {
         "status": "success",
         "message": "Sharing content found",
@@ -398,7 +398,7 @@ Get all sharing content.
         }
 
     }
-    ```
+  ```
 
 ### GET SHARING BY ID
 
