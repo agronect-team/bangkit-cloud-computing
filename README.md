@@ -261,7 +261,7 @@ Change user's password.
 
 Upload a user's profile photo.
 
--   **Method:** PUT
+-   **Method:** POST
 -   **Path:** /users/:user_id/uploadProfilePhoto
 -   **Authentication:** Token
 -   **URL Parameters:**
@@ -397,7 +397,6 @@ Get all sharing content.
     "currentPage": 1,
     "itemsPerPage": 5
     }
-
 
     }
 
