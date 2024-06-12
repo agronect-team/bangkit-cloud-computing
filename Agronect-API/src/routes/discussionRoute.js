@@ -13,7 +13,7 @@ import { upload } from "../middleware/upload.js";
 
 const router = express.Router();
 
-router.get("/sharing", getAllSharing);
+router.get("/sharing", auth, getAllSharing);
 router.get("/sharing/:id", auth, getSharingById, getAllSharing);
 router.post("/sharing", auth, upload.single("imgUrl"), postSharing);
 router.put("/sharing/:id", auth, validate(discussionValidate), updateSharing);

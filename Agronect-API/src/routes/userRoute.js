@@ -24,6 +24,7 @@ router.get("/users/", getAllUsers);
 router.put("/users/:id", auth, validate(userValidate), updateUser);
 router.post(
     "/users/:id/upload-photoprofile",
+    auth,
     upload.single("imgUrl"),
     uploadProfilePhoto
 );

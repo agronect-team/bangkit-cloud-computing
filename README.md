@@ -339,68 +339,66 @@ Get all sharing content.
 
 -   **Success (200 OK)**
 
-        ```json
-        {
+            ```json
+                {
+        "status": "success",
+        "message": "Sharing content found",
+        "dataGetAll": [
+            {
+                "sharing_id": "sharing-68ov",
+                "user_id": "Ae5CDM038Dns",
+                "name": "rizky(O_O)",
+                "content": "hai aku dewangga",
+                "imgUrl": null,
+                "created_at": "2024-06-12T03:37:44.000Z",
+                "updated_at": "2024-06-12T03:37:44.000Z"
+            },
+            {
+                "sharing_id": "sharing--Nns",
+                "user_id": "Ae5CDM038Dns",
+                "name": "rizky(O_O)",
+                "content": "fdjgdhjfghjfghjfghj",
+                "imgUrl": null,
+                "created_at": "2024-06-12T03:37:27.000Z",
+                "updated_at": "2024-06-12T03:37:27.000Z"
+            },
+            {
+                "sharing_id": "sharing-04NN",
+                "user_id": "Ae5CDM038Dns",
+                "name": "rizky(O_O)",
+                "content": "hai aku rizky\n",
+                "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-awk_",
+                "created_at": "2024-06-12T03:32:43.000Z",
+                "updated_at": "2024-06-12T03:32:43.000Z"
+            },
+            {
+                "sharing_id": "sharing-ta-9",
+                "user_id": "ad4hBhEo6FrS",
+                "name": "irvan",
+                "content": "halo baru baru",
+                "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-MWLN",
+                "created_at": "2024-06-11T08:34:15.000Z",
+                "updated_at": "2024-06-11T08:34:15.000Z"
+            },
+            {
+                "sharing_id": "sharing-90V5",
+                "user_id": "Ae5CDM038Dns",
+                "name": "rizky",
+                "content": "mshhdbamajs shshs d dnjs s djcjcjdd  xnx d d djdjsjsuhevd xjsbe d djs d djdihzhahdidb d djxuxhbsbs elaosudhoaow e diaosisioajs soaisusoaoe zoaosuoaosos soauysoeoais zosieiwn s soqowueisowwb soqiwusiausoa  soaisisoaiabsl spsiauwoejsboaoa sosisuoaiabssoiaiehs soahshs soshe snaiwhe os e d soaisjs s",
+                "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-5geB",
+                "created_at": "2024-06-11T07:08:05.000Z",
+                "updated_at": "2024-06-11T07:08:05.000Z"
+            }
+        ],
+        "pagination": {
+            "totalItems": 34,
+            "totalPages": 7,
+            "currentPage": 1,
+            "itemsPerPage": 5
+        }
 
-    "status": "success",
-    "message": "Sharing content found",
-    "dataSharing": [
-    {
-    "sharing_id": "sharing-68ov",
-    "user_id": "Ae5CDM038Dns",
-    "name": "rizky(O_O)",
-    "content": "hai aku dewangga",
-    "imgUrl": null,
-    "created_at": "2024-06-12T03:37:44.000Z",
-    "updated_at": "2024-06-12T03:37:44.000Z"
-    },
-    {
-    "sharing_id": "sharing--Nns",
-    "user_id": "Ae5CDM038Dns",
-    "name": "rizky(O_O)",
-    "content": "fdjgdhjfghjfghjfghj",
-    "imgUrl": null,
-    "created_at": "2024-06-12T03:37:27.000Z",
-    "updated_at": "2024-06-12T03:37:27.000Z"
-    },
-    {
-    "sharing_id": "sharing-04NN",
-    "user_id": "Ae5CDM038Dns",
-    "name": "rizky(O_O)",
-    "content": "hai aku rizky\n",
-    "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-awk_",
-    "created_at": "2024-06-12T03:32:43.000Z",
-    "updated_at": "2024-06-12T03:32:43.000Z"
-    },
-    {
-    "sharing_id": "sharing-ta-9",
-    "user_id": "ad4hBhEo6FrS",
-    "name": "irvan",
-    "content": "halo baru baru",
-    "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-MWLN",
-    "created_at": "2024-06-11T08:34:15.000Z",
-    "updated_at": "2024-06-11T08:34:15.000Z"
-    },
-    {
-    "sharing_id": "sharing-90V5",
-    "user_id": "Ae5CDM038Dns",
-    "name": "rizky",
-    "content": "mshhdbamajs shshs d dnjs s djcjcjdd xnx d d djdjsjsuhevd xjsbe d d djdihzhahdidb d djxuxhbsbs elaosudhoaow e diaosisioajs soaisusoaoe zoaosuoaosos soauysoeoais zosieiwn s soqowueisowwb soqiwusiausoa soaisisoaiabsl spsiauwoejsboaoa sosisuoaiabssoiaiehs soahshs soshe snaiwhe os e d soaisjs s",
-    "imgUrl": "https://storage.googleapis.com/agronect-test-bucket/Sharing_Image/sharing-image-5geB",
-    "created_at": "2024-06-11T07:08:05.000Z",
-    "updated_at": "2024-06-11T07:08:05.000Z"
     }
-    ],
-    "pagination": {
-    "totalItems": 34,
-    "totalPages": 7,
-    "currentPage": 1,
-    "itemsPerPage": 5
-    }
-
-    }
-
-            ```
+    ```
 
 ### GET SHARING BY ID
 
