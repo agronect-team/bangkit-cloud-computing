@@ -6,7 +6,10 @@ import {
 } from "../models/usersModel.js";
 import bcrypt from "bcrypt";
 
-import { uploadProfilePhotoToGCS } from "../middleware/upload.js";
+import {
+    uploadProfilePhotoToGCS,
+    deleteFileFromGCS,
+} from "../middleware/upload.js";
 
 const getUserById = async (req, res) => {
     const userId = req.params.id;
@@ -104,9 +107,10 @@ const changePassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const userId = req.params.id;
-    const { name, email } = req.body;
+    const updates = req.body; // This will capture all the fields from the request body
+
     try {
-        const result = await updateUserModel(userId, name, email);
+        const result = await updateUserModel(userId, updates);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({
@@ -121,8 +125,7 @@ const updateUser = async (req, res) => {
             message: "User updated successfully",
             dataUpdate: {
                 user_id: userId,
-                name,
-                email,
+                ...updates, // Include all the updated fields in the response
             },
         });
     } catch (error) {
@@ -148,18 +151,26 @@ const uploadProfilePhoto = async (req, res) => {
             });
         }
 
-        // Upload the image to Google Cloud Storage
+        const user = rows[0];
+        const oldPhotoUrl = user.photoProfileUrl;
+
+        // Upload the new image to Google Cloud Storage
         const file = req.file;
-        const publicUrl = await uploadProfilePhotoToGCS(file);
+        const newPhotoUrl = await uploadProfilePhotoToGCS(file);
 
         // Update user profile photo URL in the database
-        const updates = { photoProfileUrl: publicUrl };
+        const updates = { photoProfileUrl: newPhotoUrl };
         await updateUserModel(userId, updates);
+
+        // Delete the old profile photo from GCS if it exists
+        if (oldPhotoUrl) {
+            await deleteFileFromGCS(oldPhotoUrl);
+        }
 
         res.status(200).json({
             status: "success",
             message: "Profile photo uploaded successfully",
-            dataUploadProfile: { photoProfileUrl: publicUrl },
+            dataUploadProfile: { photoProfileUrl: newPhotoUrl },
         });
     } catch (error) {
         res.status(500).json({

@@ -36,20 +36,18 @@ const postSharingModel = async (sharing_id, content, userId, name, imgUrl) => {
 //     return dbPool.query(SQLQuery);
 // };
 const getAllSharingModel = async (offset, limit) => {
-    try {
-        const [rows] = await dbPool.query(
-            `SELECT * FROM sharing ORDER BY created_at DESC LIMIT ?, ?`,
-            [offset, limit]
-        );
-        const [[{ totalItems }]] = await dbPool.query(
-            `SELECT COUNT(*) as totalItems FROM sharing`
-        );
-        return { rows, totalItems };
-    } catch (error) {
-        throw error;
-    }
+    const [rows] = await dbPool.query(
+        "SELECT * FROM sharing ORDER BY created_at DESC LIMIT ?, ?",
+        [offset, limit]
+    );
+    return rows;
 };
 
+// Assuming you have a function to get the total count of sharing
+const getTotalSharingCount = async () => {
+    const [rows] = await dbPool.query("SELECT COUNT(*) as count FROM sharing");
+    return rows[0].count;
+};
 const getSharingByIdModel = async (sharing_id) => {
     const SQLQuery = `
         SELECT sharing_id, user_id, name, content, ImgUrl
@@ -84,4 +82,5 @@ export {
     getSharingByIdModel,
     updateSharingModel,
     deleteSharingModel,
+    getTotalSharingCount,
 };

@@ -66,4 +66,20 @@ const uploadProfilePhotoToGCS = (file) => {
     });
 };
 
-export { upload, uploadImageToGCS, uploadProfilePhotoToGCS };
+const deleteFileFromGCS = (publicUrl) => {
+    return new Promise((resolve, reject) => {
+        const filePath = publicUrl.split(
+            `https://storage.googleapis.com/${bucket.name}/`
+        )[1];
+        const file = bucket.file(filePath);
+
+        file.delete((err, apiResponse) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(apiResponse);
+        });
+    });
+};
+
+export { upload, uploadImageToGCS, uploadProfilePhotoToGCS, deleteFileFromGCS };

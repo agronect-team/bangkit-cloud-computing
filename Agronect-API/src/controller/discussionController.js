@@ -5,6 +5,7 @@ import {
     deleteSharingModel,
     getSharingByIdModel,
     updateSharingModel,
+    getTotalSharingCount
 } from "../models/discussionModel.js";
 import { uploadImageToGCS } from "../middleware/upload.js";
 import jwt from "jsonwebtoken";
@@ -53,19 +54,19 @@ const postSharing = async (req, res) => {
 
 const getAllSharing = async (req, res) => {
     try {
-        // Mengambil parameter page dan size dari query string
-        const page = parseInt(req.query.page);
-        const size = parseInt(req.query.size);
-        const offset = (page - 1) * size;
+        let { page, size } = req.query;
+        page = page ? parseInt(page) : 1;
+        size = size ? parseInt(size) : 10;
 
-        // Memanggil model dengan parameter offset dan size
-        const { rows, totalItems } = await getAllSharingModel(offset, size);
+        const offset = (page - 1) * size;
+        const rows = await getAllSharingModel(offset, size);
+        const totalItems = await getTotalSharingCount(); // Assuming you have a function to get the total count
         const totalPages = Math.ceil(totalItems / size);
 
         res.status(200).json({
             status: "success",
             message: "Sharing content found",
-            dataGetAll: rows,
+            data: rows,
             pagination: {
                 totalItems,
                 totalPages,
