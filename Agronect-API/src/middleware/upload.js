@@ -68,16 +68,41 @@ const uploadProfilePhotoToGCS = (file) => {
 
 const deleteFileFromGCS = (publicUrl) => {
     return new Promise((resolve, reject) => {
+        // Parse the filePath from the publicUrl
         const filePath = publicUrl.split(
             `https://storage.googleapis.com/${bucket.name}/`
         )[1];
         const file = bucket.file(filePath);
 
-        file.delete((err, apiResponse) => {
+        file.exists((err, exists) => {
             if (err) {
-                return reject(err);
+                console.error("Error checking if file exists:", err);
+                return reject({
+                    status: "failed",
+                    message: "Failed to check if file exists in GCS",
+                });
             }
-            resolve(apiResponse);
+
+            // If file does not exist, resolve immediately with success message
+            if (!exists) {
+                console.warn(`File not found in GCS: ${publicUrl}`);
+                return resolve({
+                    status: "success",
+                    message: "File not found in GCS, no action needed",
+                });
+            }
+
+            // Otherwise, delete the file
+            file.delete((err, apiResponse) => {
+                if (err) {
+                    console.error("Error deleting file from GCS:", err);
+                    return reject({
+                        status: "failed",
+                        message: "Failed to delete file from GCS",
+                    });
+                }
+                resolve(apiResponse);
+            });
         });
     });
 };

@@ -107,38 +107,8 @@ const changePassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const userId = req.params.id;
-    const updates = req.body; // This will capture all the fields from the request body
-
-    try {
-        const result = await updateUserModel(userId, updates);
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({
-                status: "failed",
-                message: "User not found or no update performed",
-                dataUpdate: null,
-            });
-        }
-
-        res.status(200).json({
-            status: "success",
-            message: "User updated successfully",
-            dataUpdate: {
-                user_id: userId,
-                ...updates, // Include all the updated fields in the response
-            },
-        });
-    } catch (error) {
-        res.status(500).json({
-            status: "failed",
-            message: error.message,
-            dataUpdate: null,
-        });
-    }
-};
-
-const uploadProfilePhoto = async (req, res) => {
-    const userId = req.params.id;
+    const { name, email } = req.body;
+    const file = req.file; // Assuming file is uploaded in the same request
 
     try {
         // Check if user exists
@@ -153,38 +123,67 @@ const uploadProfilePhoto = async (req, res) => {
 
         const user = rows[0];
         const oldPhotoUrl = user.photoProfileUrl;
+        let newPhotoUrl = oldPhotoUrl;
 
-        // Upload the new image to Google Cloud Storage
-        const file = req.file;
-        const newPhotoUrl = await uploadProfilePhotoToGCS(file);
-
-        // Update user profile photo URL in the database
-        const updates = { photoProfileUrl: newPhotoUrl };
-        await updateUserModel(userId, updates);
-
-        // Delete the old profile photo from GCS if it exists
-        if (oldPhotoUrl) {
-            await deleteFileFromGCS(oldPhotoUrl);
+        // If there's a new profile photo, upload it and delete the old one
+        if (file) {
+            newPhotoUrl = await uploadProfilePhotoToGCS(file);
+            // Delete the old photo if it exists
+            if (oldPhotoUrl) {
+                const deleteResult = await deleteFileFromGCS(oldPhotoUrl);
+                if (deleteResult.status === "failed") {
+                    console.error(deleteResult.message); // Log the error for debugging
+                }
+            }
         }
+
+        // Update user data
+        const updates = {};
+        if (name) {
+            updates.name = name;
+        }
+        if (email) {
+            updates.email = email;
+        }
+        if (newPhotoUrl) {
+            updates.photoProfileUrl = newPhotoUrl;
+        }
+
+        const result = await updateUserModel(userId, updates);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "User not found or no update performed",
+                dataUpdate: null,
+            });
+        }
+
+        // Return updated user data
+        const updatedUserRows = await getUserByIdModel(userId);
+        const updatedUser = updatedUserRows[0];
+
+        // Extract only the required fields
+        const responseData = {
+            user_id: updatedUser.user_id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            photoProfileUrl: updatedUser.photoProfileUrl,
+        };
 
         res.status(200).json({
             status: "success",
-            message: "Profile photo uploaded successfully",
-            dataUploadProfile: { photoProfileUrl: newPhotoUrl },
+            message: "User updated successfully",
+            dataUpdate: responseData,
         });
     } catch (error) {
         res.status(500).json({
             status: "failed",
             message: error.message,
-            data: null,
+            dataUpdate: null,
         });
     }
 };
 
-export {
-    updateUser,
-    getUserById,
-    getAllUsers,
-    changePassword,
-    uploadProfilePhoto,
-};
+
+export { updateUser, getUserById, getAllUsers, changePassword };

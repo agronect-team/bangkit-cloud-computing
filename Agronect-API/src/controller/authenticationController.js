@@ -75,9 +75,13 @@ const signIn = async (req, res) => {
                 data: null,
             });
         } else {
-            const loguser = { id: user[0].user_id, email: user[0].email, name: user[0].name };
+            const loguser = {
+                id: user[0].user_id,
+                email: user[0].email,
+                name: user[0].name,
+            };
             const accessToken = jwt.sign(loguser, process.env.JWT_SECRET, {
-                expiresIn: "1h",
+                expiresIn: "24h",
             });
 
             const refreshToken = jwt.sign(
@@ -163,7 +167,5 @@ const signOut = async (req, res) => {
         });
     }
 };
-
-
 
 export { signUp, signIn, refresh, signOut };

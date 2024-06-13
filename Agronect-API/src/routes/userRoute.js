@@ -13,7 +13,6 @@ import {
     getUserById,
     getAllUsers,
     changePassword,
-    uploadProfilePhoto,
 } from "../controller/userController.js";
 
 const router = express.Router();
@@ -21,12 +20,11 @@ const router = express.Router();
 router.get("/users/:id", getUserById);
 router.get("/users/", getAllUsers);
 
-router.put("/users/:id", auth, validate(userValidate), updateUser);
-router.post(
-    "/users/:id/upload-photoprofile",
+router.put(
+    "/users/update-users/:id",
     auth,
     upload.single("imgUrl"),
-    uploadProfilePhoto
+    updateUser
 );
 router.put(
     "/users/change-password/:id",

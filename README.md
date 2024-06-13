@@ -20,21 +20,20 @@ This document provides information on how to use the API endpoints and their fun
 
 ## Recap Endpoint Routes
 
-| Route                              | HTTP Method | Description                |
-| ---------------------------------- | ----------- | -------------------------- |
-| /signup                            | POST        | Sign up a new user         |
-| /signin                            | POST        | Sign in a user             |
-| /signout                           | POST        | Sign out a user            |
-| /users                             | GET         | Get all users              |
-| /users/:user_id                    | GET         | Get user by ID             |
-| /users/:user_id                    | PUT         | Update user name and email |
-| /users/change-password/:user_id    | PUT         | Change user password       |
-| /users/:user_id/uploadProfilePhoto | PUT         | Upload user profile photo  |
-| /sharing                           | POST        | Add sharing content        |
-| /sharing                           | GET         | Get all sharing content    |
-| /sharing/:sharing_id               | GET         | Get sharing by ID          |
-| /sharing/:sharing_id               | PUT         | Update sharing by ID       |
-| /sharing/:sharing_id               | DELETE      | Delete sharing by ID       |
+| Route                           | HTTP Method | Description                |
+| ------------------------------- | ----------- | -------------------------- |
+| /signup                         | POST        | Sign up a new user         |
+| /signin                         | POST        | Sign in a user             |
+| /signout                        | POST        | Sign out a user            |
+| /users                          | GET         | Get all users              |
+| /users/:user_id                 | GET         | Get user by ID             |
+| /users/update-users/:user_id    | PUT         | Update user name and email |
+| /users/change-password/:user_id | PUT         | Change user password       |
+| /sharing                        | POST        | Add sharing content        |
+| /sharing                        | GET         | Get all sharing content    |
+| /sharing/:sharing_id            | GET         | Get sharing by ID          |
+| /sharing/:sharing_id            | PUT         | Update sharing by ID       |
+| /sharing/:sharing_id            | DELETE      | Delete sharing by ID       |
 
 ## Endpoints
 
@@ -202,16 +201,12 @@ Get user by unique ID.
 Update user's name and email.
 
 -   **Method:** PUT
--   **Path:** /users/:user_id
+-   **Path:** /users/update-users/:id
 -   **Authentication:** Token
 -   **Body Parameters:**
-
-    ```json
-    {
-        "name": "Test2",
-        "email": "test1@gmail.com"
-    }
-    ```
+-   `name` (opsional): new user name.
+-   `email` (opsional): new user email.
+-   `photoProfile` (opsional): upload photo profile.
 
 -   **Response:**
 
@@ -222,9 +217,10 @@ Update user's name and email.
         "status": "success",
         "message": "User updated successfully",
         "dataUpdate": {
-            "user_id": "nqKeaO1vLxHM",
-            "name": "Test2",
-            "email": "test1@gmail.com"
+            "user_id": "MU-GNKIDHI4T",
+            "name": "Testing",
+            "email": "test@gmail.com",
+            "photoProfileUrl": "https://storage.googleapis.com/agronect-test-bucket/Photo-Profile_Image/profile-photo-vBDy"
         }
     }
     ```
@@ -254,39 +250,6 @@ Change user's password.
     {
         "status": "success",
         "message": "Password updated successfully"
-    }
-    ```
-
-### UPLOAD PROFILE PHOTO
-
-Upload a user's profile photo.
-
--   **Method:** POST
--   **Path:** /users/:user_id/upload-photoprofile
--   **Authentication:** Token
--   **URL Parameters:**
-
-    -   `user_id`: The ID of the user
-
--   **Headers:**
-
-    -   `Content-Type: multipart/form-data`
-
--   **Body Parameters:**
-
-    -   `profile_photo`: The profile photo file (image)
-
--   **Response:**
-
-    -   **Success (200 OK)**
-
-    ```json
-    {
-        "status": "success",
-        "message": "Profile photo uploaded successfully",
-        "dataUploadProfile": {
-            "photoProfileUrl": "https://storage.googleapis.com/agronect-test-bucket/Photo-Profile_Image/profile-photo-9H-O"
-        }
     }
     ```
 
