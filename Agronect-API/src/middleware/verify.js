@@ -3,6 +3,12 @@ import { getSharingByIdModel } from "../models/discussionModel.js";
 const verifyOwnership = async (req, res, next) => {
     const { sharing_id } = req.params;
 
+    if (!sharing_id) {
+        return res
+            .status(400)
+            .json({ message: "Bad Request: sharing_id is required" });
+    }
+
     try {
         const sharing = await getSharingByIdModel(sharing_id);
         if (!sharing) {

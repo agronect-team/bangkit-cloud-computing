@@ -5,7 +5,7 @@ import {
     deleteSharingModel,
     getSharingByIdModel,
     updateSharingModel,
-    getTotalSharingCount
+    getTotalSharingCount,
 } from "../models/discussionModel.js";
 import { uploadImageToGCS } from "../middleware/upload.js";
 import jwt from "jsonwebtoken";
@@ -85,36 +85,32 @@ const getAllSharing = async (req, res) => {
 };
 
 const getSharingById = async (req, res) => {
-    const sharing_id = req.params.id;
+    const { sharing_id } = req.params;
+
     try {
-        const rows = await getSharingByIdModel(sharing_id);
+        const sharing = await getSharingByIdModel(sharing_id);
 
-        if (rows.length === 0) {
-            return res.status(404).json({
-                status: "failed",
-                message: "Sharing not found",
-                dataById: null,
-            });
+        if (!sharing) {
+            return res.status(404).json({ message: "Sharing not found" });
         }
-
-        const sharing = rows[0];
 
         res.status(200).json({
             status: "success",
             message: "Sharing found",
-            dataById: sharing,
+            data: sharing,
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             status: "failed",
-            message: error.message,
-            dataById: null,
+            message: "Internal server error",
+            data: null,
         });
     }
 };
 
 const updateSharing = async (req, res) => {
-    const sharing_id = req.params.id;
+    const { sharing_id } = req.params;
     const { content, imgUrl } = req.body;
     try {
         const result = await updateSharingModel(sharing_id, content, imgUrl);
@@ -146,7 +142,7 @@ const updateSharing = async (req, res) => {
 };
 
 const deleteSharing = async (req, res) => {
-    const sharing_id = req.params.id;
+    const { sharing_id } = req.params;
     try {
         const result = await deleteSharingModel(sharing_id);
 

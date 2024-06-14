@@ -49,13 +49,12 @@ const getTotalSharingCount = async () => {
     return rows[0].count;
 };
 const getSharingByIdModel = async (sharing_id) => {
-    const SQLQuery = `
-        SELECT sharing_id, user_id, name, content, ImgUrl
-        FROM sharing
-        WHERE sharing_id = ?
-    `;
-    const [rows] = await dbPool.execute(SQLQuery, [sharing_id]);
-    return rows;
+    const [rows, fields] = await dbPool.execute(
+        "SELECT * FROM sharing WHERE sharing_id = ?",
+        [sharing_id]
+    );
+
+    return rows.length > 0 ? rows[0] : null;
 };
 
 const updateSharingModel = async (sharing_id, content, imgUrl) => {

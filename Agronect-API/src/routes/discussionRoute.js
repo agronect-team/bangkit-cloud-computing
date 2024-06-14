@@ -15,15 +15,15 @@ import { upload } from "../middleware/upload.js";
 const router = express.Router();
 
 router.get("/sharing", auth, getAllSharing);
-router.get("/sharing/:id", auth, getSharingById, getAllSharing);
+router.get("/sharing/:sharing_id", auth, getSharingById);
 router.post("/sharing", auth, upload.single("imgUrl"), postSharing);
 router.put(
-    "/sharing/:id",
+    "/sharing/:sharing_id",
     auth,
     verifyOwnership,
     validate(discussionValidate),
     updateSharing
 );
-router.delete("/sharing/:id", auth, verifyOwnership, deleteSharing);
+router.delete("/sharing/:sharing_id", auth, verifyOwnership, deleteSharing);
 
 export default router;
