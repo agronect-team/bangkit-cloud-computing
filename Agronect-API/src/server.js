@@ -4,9 +4,6 @@ import logs from "./middleware/logs.js";
 
 import userRoute from "./routes/userRoute.js";
 import authenticationRoute from "./routes/authenticationRoute.js";
-import predictRoute from "./routes/predictRoute.js";
-import plantRoute from "./routes/plantRoute.js";
-import diseaseRoute from "./routes/diseaseRoute.js";
 import discussionRoute from "./routes/discussionRoute.js";
 
 dotenv.config();
@@ -23,9 +20,6 @@ app.get("/", (req, res) => {
 
 app.use(userRoute);
 app.use(authenticationRoute);
-app.use(predictRoute);
-app.use(plantRoute);
-app.use(diseaseRoute);
 app.use(discussionRoute);
 
 app.use((req, res, next) => {

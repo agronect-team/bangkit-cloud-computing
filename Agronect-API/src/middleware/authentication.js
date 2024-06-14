@@ -4,17 +4,13 @@ import { signoutCheck } from "../models/authenticationModels.js";
 
 dotenv.config();
 
-//authentication.js
 const auth = async (req, res, next) => {
     try {
-        const authHeader =
-            req.headers["authorization"] || req.headers["Authorization"];
+        const authHeader = req.headers["authorization"] || req.headers["Authorization"];
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             console.error("Authorization header missing or incorrect format");
-            return res
-                .status(401)
-                .json({ message: "Harap autentikasi terlebih dahulu" });
+            return res.status(401).json({ message: "Harap autentikasi terlebih dahulu" });
         }
 
         const token = authHeader.split(" ")[1];
@@ -31,14 +27,13 @@ const auth = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.id; // menambahkan userId ke req
         req.email = decoded.email;
         req.name = decoded.name;
         next();
     } catch (err) {
         console.error("Kesalahan verifikasi token:", err);
-        return res
-            .status(403)
-            .json({ message: "Token tidak valid atau kedaluwarsa" });
+        return res.status(403).json({ message: "Token tidak valid atau kedaluwarsa" });
     }
 };
 

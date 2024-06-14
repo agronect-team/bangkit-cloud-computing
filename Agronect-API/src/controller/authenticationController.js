@@ -79,6 +79,7 @@ const signIn = async (req, res) => {
                 id: user[0].user_id,
                 email: user[0].email,
                 name: user[0].name,
+                profile_photo_url: user[0].profile_photo_url,
             };
             const accessToken = jwt.sign(loguser, process.env.JWT_SECRET, {
                 expiresIn: "24h",
@@ -93,6 +94,7 @@ const signIn = async (req, res) => {
                 user_id: user[0].user_id,
                 name: user[0].name,
                 email: user[0].email,
+                profile_photo_url: user[0].profile_photo_url,
                 access_token: accessToken,
                 message: "Login success",
             };
