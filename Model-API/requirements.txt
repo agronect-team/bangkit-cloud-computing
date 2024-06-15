@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+numpy
+pillow
+matplotlib==3.7.1
