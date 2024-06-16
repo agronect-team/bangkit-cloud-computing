@@ -16,7 +16,7 @@ This document provides information on how to use the API endpoints and their fun
 
 ## URL Services
 
--   **Base URL:** [https://agronect-testing-sprknqibeq-et.a.run.app/](https://agronect-testing-sprknqibeq-et.a.run.app/)
+-   **Base URL:** [https://backend-agronect-65ea3pt77a-et.a.run.app](https://backend-agronect-65ea3pt77a-et.a.run.app)
 
 ## Recap Endpoint Routes
 
