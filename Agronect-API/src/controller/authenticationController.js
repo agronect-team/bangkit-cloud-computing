@@ -79,7 +79,7 @@ const signIn = async (req, res) => {
                 id: user[0].user_id,
                 email: user[0].email,
                 name: user[0].name,
-                profile_photo_url: user[0].photoProfileUrl,
+                photoProfileUrl: user[0].photoProfileUrl,
             };
             const accessToken = jwt.sign(loguser, process.env.JWT_SECRET, {
                 expiresIn: "24h",

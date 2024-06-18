@@ -3,6 +3,7 @@ CREATE TABLE `user` (
   `name` varchar(100),
   `email` varchar(128) unique,
   `password` varchar(256),
+  `photoProfileUrl` varchar(255),
   `role` enum('user', 'admin') DEFAULT 'user',
   `created_at` datetime,
   `updated_at` datetime
@@ -24,3 +25,12 @@ CREATE TABLE `blacklist` (
   `token` varchar(500),
   primary key(id)
 )
+
+CREATE TABLE predictions (
+    `prediction_id` VARCHAR(10) PRIMARY KEY, 
+    `plant_name` VARCHAR(50),
+    `predicted_class` VARCHAR(50),
+    `description` TEXT,
+    `solution` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
