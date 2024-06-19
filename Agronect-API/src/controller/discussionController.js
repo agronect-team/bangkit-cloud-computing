@@ -9,6 +9,7 @@ import {
 } from "../models/discussionModel.js";
 import { uploadImageToGCS } from "../middleware/upload.js";
 import jwt from "jsonwebtoken";
+import { nanoid } from "nanoid";
 
 const postSharing = async (req, res) => {
     const { body } = req;

@@ -1,111 +1,88 @@
 import {
-    getHistoryModel,
-    getHistoryModelById,
+    getAllHistoryByUserIdModel,
+    getHistoryByIdModel,
     deleteHistoryModel,
 } from "../models/historyModel.js";
-import { Storage } from "@google-cloud/storage";
 
-const storage = new Storage();
-// get data
-const getHistory = async (req, res) => {
+const getHistoryByUserId = async (req, res) => {
     try {
-        const user_id = req.user_id;
-        const data = await getHistoryModel(user_id);
-        console.log(data);
-        if (data === undefined) {
-            res.status(404).json({
-                code: 404,
-                status: "NOT FOUND",
-                message: "Data prediction tidak ditemukan",
-                data: null,
-            });
-        } else {
-            res.json({
-                code: 200,
-                status: "OK",
-                message: "Berhasil mengambil data prediction",
-                data: data,
+        const { user_id } = req.params;
+        const rows = await getAllHistoryByUserIdModel(user_id);
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "No history found for this user",
+                dataHistoryUser: null,
             });
         }
+        res.status(200).json({
+            status: "success",
+            message: "History found",
+            dataHistoryUser: rows,
+        });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
-            code: 500,
-            status: "INTERNAL SERVER ERROR",
-            message: error,
-            data: null,
+            status: "failed",
+            message: "Internal server error",
+            dataHistoryUser: null,
         });
     }
 };
 
-// get by id
-const getByIdHistory = async (req, res) => {
-    const { prediction_id } = req.params;
+const getHistoryById = async (req, res) => {
+    const { id } = req.params;
+
     try {
-        const [data] = await getHistoryModelById(prediction_id);
-        if (data === undefined) {
-            res.status(404).json({
-                code: 404,
-                status: "NOT FOUND",
-                message: "Data prediction tidak ditemukan",
-                data: null,
-            });
-        } else {
-            res.json({
-                code: 200,
-                status: "OK",
-                message: "Berhasil mengambil data prediction",
-                data: data,
+        const history = await getHistoryByIdModel(id);
+        if (!history) {
+            return res.status(404).json({
+                status: "failed",
+                message: "History not found",
+                dataHistoryById: null,
             });
         }
+        res.status(200).json({
+            status: "success",
+            message: "History found",
+            dataHistoryById: history,
+        });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
-            code: 500,
-            status: "INTERNAL SERVER ERROR",
-            message: error,
-            data: null,
+            status: "failed",
+            message: "Internal server error",
+            dataHistoryById: null,
         });
     }
 };
 
-// deleted
 const deleteHistory = async (req, res) => {
-    const { prediction_id } = req.params;
+    const { id } = req.params;
     try {
-        const [data] = await getHistoryModelById(prediction_id);
-        if (data === undefined) {
-            res.status(404).json({
-                code: 404,
-                status: "NOT FOUND",
-                message: "Data not found",
-                data: null,
-            });
-        } else {
-            const bucketName = "farmgenius-bucket-image";
-            const imageUrl = data.img_url;
-            // Menggunakan fungsi split() untuk memisahkan URL berdasarkan '/'
-            const urlParts = imageUrl.split("/");
-            const imageName = urlParts[urlParts.length - 1];
-            const bucket = storage.bucket(bucketName);
-            const file = bucket.file(imageName);
-
-            await file.delete();
-
-            const [data_deleted] = await deleteHistoryModel(prediction_id);
-            res.json({
-                code: 200,
-                status: "OK",
-                message: "Data history berhasil dihapus",
-                data: null,
+        const result = await deleteHistoryModel(id);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "History not found or no delete performed",
+                dataDelete: null,
             });
         }
+        res.status(200).json({
+            status: "success",
+            message: "History deleted successfully",
+            dataDelete: {
+                id,
+            },
+        });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
-            code: 500,
-            status: "INTERNAL SERVER ERROR",
-            message: error,
-            data: null,
+            status: "failed",
+            message: "Internal server error",
+            dataDelete: null,
         });
     }
 };
 
-export { getHistory, getByIdHistory, deleteHistory };
+export { getHistoryByUserId, getHistoryById, deleteHistory };

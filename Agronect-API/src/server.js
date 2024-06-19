@@ -5,6 +5,7 @@ import logs from "./middleware/logs.js";
 import userRoute from "./routes/userRoute.js";
 import authenticationRoute from "./routes/authenticationRoute.js";
 import discussionRoute from "./routes/discussionRoute.js";
+import historyRoute from "./routes/historyRoute.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 app.use(userRoute);
 app.use(authenticationRoute);
 app.use(discussionRoute);
+app.use(historyRoute);
 
 app.use((req, res, next) => {
     next(createError.NotFound("Tidak Ditemukan"));

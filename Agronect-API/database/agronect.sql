@@ -27,10 +27,13 @@ CREATE TABLE `blacklist` (
 )
 
 CREATE TABLE predictions (
-    `prediction_id` VARCHAR(10) PRIMARY KEY, 
-    `plant_name` VARCHAR(50),
-    `predicted_class` VARCHAR(50),
-    `description` TEXT,
-    `solution` TEXT,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT PRIMARY KEY,
+    image LONGBLOB NOT NULL,
+    prediction VARCHAR(255) NOT NULL,
+    confidence FLOAT NOT NULL,
+    description TEXT,
+    solution TEXT,
+    user_id VARCHAR(16),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    FOREIGN KEY (`user_id`) REFERENCES `user`(`user_id`)
 );
