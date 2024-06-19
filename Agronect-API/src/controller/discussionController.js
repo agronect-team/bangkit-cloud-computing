@@ -7,7 +7,7 @@ import {
     getTotalSharingCount,
     getSharingByUserIdModel, // Add this import
 } from "../models/discussionModel.js";
-import { uploadImageToGCS } from "../middleware/upload.js";
+import { uploadImageToGCS, deleteFileFromGCS } from "../middleware/upload.js";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
 
@@ -116,7 +116,9 @@ const getSharingByUserId = async (req, res) => {
     try {
         const rows = await getSharingByUserIdModel(user_id);
         if (!rows || rows.length === 0) {
-            return res.status(404).json({ message: "No sharing found for this user" });
+            return res
+                .status(404)
+                .json({ message: "No sharing found for this user" });
         }
 
         res.status(200).json({
@@ -138,7 +140,37 @@ const updateSharing = async (req, res) => {
     const { sharing_id } = req.params;
     const { content, imgUrl } = req.body;
     try {
-        const result = await updateSharingModel(sharing_id, content, imgUrl);
+        // Fetch the current sharing record
+        const existingSharing = await getSharingByIdModel(sharing_id);
+        if (!existingSharing) {
+            return res.status(404).json({
+                status: "failed",
+                message: "Sharing not found",
+                dataUpdate: null,
+            });
+        }
+
+        let updatedImgUrl = existingSharing.imgUrl;
+
+        // If imgUrl is explicitly set to null or no file is uploaded, delete the existing image
+        if (imgUrl === null || !req.file) {
+            if (updatedImgUrl) {
+                await deleteFileFromGCS(updatedImgUrl);
+                updatedImgUrl = null;
+            }
+        } else if (req.file) {
+            // If a new file is uploaded, delete the old image and upload the new one
+            if (updatedImgUrl) {
+                await deleteFileFromGCS(updatedImgUrl);
+            }
+            updatedImgUrl = await uploadImageToGCS(req.file);
+        }
+
+        const result = await updateSharingModel(
+            sharing_id,
+            content,
+            updatedImgUrl
+        );
 
         if (result.affectedRows === 0) {
             return res.status(404).json({
@@ -154,7 +186,7 @@ const updateSharing = async (req, res) => {
             dataUpdate: {
                 sharing_id,
                 content,
-                imgUrl,
+                imgUrl: updatedImgUrl,
             },
         });
     } catch (error) {
@@ -167,9 +199,25 @@ const updateSharing = async (req, res) => {
     }
 };
 
+
 const deleteSharing = async (req, res) => {
     const { sharing_id } = req.params;
     try {
+        // Fetch the current sharing record
+        const existingSharing = await getSharingByIdModel(sharing_id);
+        if (!existingSharing) {
+            return res.status(404).json({
+                status: "failed",
+                message: "Sharing not found",
+                dataDelete: null,
+            });
+        }
+
+        // Delete the image from GCS if it exists
+        if (existingSharing.imgUrl) {
+            await deleteFileFromGCS(existingSharing.imgUrl);
+        }
+
         const result = await deleteSharingModel(sharing_id);
 
         if (result.affectedRows === 0) {

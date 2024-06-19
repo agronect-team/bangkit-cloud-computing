@@ -16,9 +16,9 @@ if (process.env.NODE_ENV === "production") {
     dbConfig = {
         host: process.env.DB_HOST || "localhost",
         port: process.env.DB_PORT || 1234,
-        user: process.env.DB_USER || "root",
+        user: process.env.DB_USER || "admin",
         password: process.env.DB_PASSWORD || "baguskeren77",
-        database: process.env.DB_NAME || "database-testing",
+        database: process.env.DB_NAME || "database-agronect",
     };
 }
 

@@ -23,7 +23,7 @@ router.put(
     "/sharing/:sharing_id",
     auth,
     verifyOwnership,
-    validate(discussionValidate),
+    upload.single("imgUrl"),
     updateSharing
 );
 router.delete("/sharing/:sharing_id", auth, verifyOwnership, deleteSharing);
