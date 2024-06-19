@@ -12,11 +12,11 @@ const getAllHistory = async () => {
     }
 };
 
-const getHistoryByIdModel = async (id) => {
+const getHistoryByIdModel = async (id_pred) => {
     try {
         const [rows] = await dbPool.execute(
             "SELECT id_pred, prediction, confidence, description, solution, user_id FROM predictions WHERE id_pred = ? ORDER BY created_at DESC",
-            [id]
+            [id_pred]
         );
         return rows;
     } catch (error) {
@@ -36,11 +36,11 @@ const getAllHistoryByUserIdModel = async (user_id) => {
     }
 };
 
-const deleteHistoryModel = async (id) => {
+const deleteHistoryModel = async (id_pred) => {
     try {
         const [rows] = await dbPool.execute(
             "DELETE FROM predictions WHERE id_pred = ?",
-            [id]
+            [id_pred]
         );
         return rows;
     } catch (error) {
