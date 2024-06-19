@@ -19,8 +19,8 @@ router.get("/history", auth, getAllHistorys);
 
 router.get("/history/:user_id", auth, getHistoryByUserId);
 
-router.get("/history/users/:id", auth, getHistoryById);
+router.get("/history/users/:id_pred", auth, getHistoryById);
 // Delete DATA
-router.delete("/history/:id", auth, deleteHistory);
+router.delete("/history/users/:id_pred", auth, deleteHistory);
 
 export default router;

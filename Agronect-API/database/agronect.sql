@@ -27,7 +27,7 @@ CREATE TABLE `blacklist` (
 )
 
 CREATE TABLE predictions (
-    id INT PRIMARY KEY,
+    id_pred INT PRIMARY KEY,
     image LONGBLOB NOT NULL,
     prediction VARCHAR(255) NOT NULL,
     confidence FLOAT NOT NULL,
