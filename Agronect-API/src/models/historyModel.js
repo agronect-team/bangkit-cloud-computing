@@ -2,6 +2,17 @@ import dbPool from "../config/connection.js";
 
 // get history
 
+const getAllHistory = async () => {
+    try {
+        const [rows] = await dbPool.execute(
+            "SELECT * FROM predictions ORDER BY created_at DESC"
+        );
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const getHistoryByIdModel = async (id) => {
     try {
         const [rows] = await dbPool.execute(
@@ -38,4 +49,4 @@ const deleteHistoryModel = async (id) => {
     }
 };
 
-export { getHistoryByIdModel, getAllHistoryByUserIdModel, deleteHistoryModel };
+export { getHistoryByIdModel, getAllHistoryByUserIdModel, deleteHistoryModel, getAllHistory };

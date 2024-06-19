@@ -2,7 +2,32 @@ import {
     getAllHistoryByUserIdModel,
     getHistoryByIdModel,
     deleteHistoryModel,
+    getAllHistory,
 } from "../models/historyModel.js";
+
+const getAllHistorys = async (req, res) => {
+    try {
+        const rows = await getAllHistory();
+        if (!rows || rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "No history found",
+                dataHistory: null,
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            message: "History found",
+            dataHistory: rows,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: "failed",
+            message: "Internal server error",
+        });
+    }
+};
 
 const getHistoryByUserId = async (req, res) => {
     try {
@@ -85,4 +110,4 @@ const deleteHistory = async (req, res) => {
     }
 };
 
-export { getHistoryByUserId, getHistoryById, deleteHistory };
+export { getHistoryByUserId, getHistoryById, deleteHistory, getAllHistorys };
