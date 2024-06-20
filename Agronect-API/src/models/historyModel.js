@@ -30,7 +30,7 @@ const getHistoryByIdModel = async (id_pred) => {
 const getAllHistoryByUserIdModel = async (user_id) => {
     try {
         const [rows] = await dbPool.execute(
-            "SELECT id_pred, prediction, confidence, description, solution, user_id,image FROM predictions WHERE user_id = ? ORDER BY created_at DESC",
+            "SELECT id_pred, prediction, confidence, description, solution, user_id,plant_name,image FROM predictions WHERE user_id = ? ORDER BY created_at DESC",
             [user_id]
         );
         return rows;
