@@ -4,7 +4,7 @@ import dbPool from "../config/connection.js";
 const getAllHistory = async () => {
     try {
         const [rows] = await dbPool.execute(
-            "SELECT id_pred, prediction, confidence, description, solution, user_id FROM predictions ORDER BY created_at DESC"
+            "SELECT id_pred, prediction, confidence, description, solution, user_id,plant_name,image FROM predictions ORDER BY created_at DESC"
         );
         return rows;
     } catch (error) {
